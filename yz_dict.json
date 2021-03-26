@@ -2,7 +2,7 @@
     "dn": "then",
     "agn": "again",
     "mayb": "maybe",
-    "wn": "want",
+    "wn": "when/want",
     "b": "be",
     "nt": "not",
     "v": "very",
@@ -36,5 +36,14 @@
     "enuf": "enough",
     "tech": "technically",
     "shld": "should",
-    "rm": "room/remove"
+    "rm": "room/remove",
+    "whn": "when",
+    "w": "with",
+    "bk": "book/burger king",
+    "actl": "actual(ly)",
+    "gg": "going/good game",
+    "rdy": "ready",
+    "rd": "read",
+    "thr": "there",
+    "pt": "point"
 }
