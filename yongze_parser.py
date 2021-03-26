@@ -1,6 +1,7 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 import json
 import logging
+import sys
 import time
 
 def get_bot_key():
@@ -91,28 +92,32 @@ def save_new_smokes(update, context):
     
 
 def main():
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-    api_key = get_bot_key() 
+    try:
+        logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+        api_key = get_bot_key() 
     
-    updater = Updater(token=api_key, use_context=True)
-    dispatcher = updater.dispatcher
+        updater = Updater(token=api_key, use_context=True)
+        dispatcher = updater.dispatcher
 
-    convo_handler = ConversationHandler(
-        entry_points=[
-            CommandHandler('start', start),
-            MessageHandler(Filters.text & (~Filters.command), decrypt )
-            ],
+        convo_handler = ConversationHandler(
+            entry_points=[
+                CommandHandler('start', start),
+                MessageHandler(Filters.text & (~Filters.command), decrypt )
+                ],
 
-        states = {
-            WORD: [CommandHandler('add', add_smoke_word)],
-            DEFINITION: [MessageHandler(Filters.text & (~Filters.command), add_smoke_definition)],
-            SAVE: [MessageHandler(Filters.text & (~Filters.command), save_new_smokes)]
-        },
+            states = {
+                WORD: [CommandHandler('add', add_smoke_word)],
+                DEFINITION: [MessageHandler(Filters.text & (~Filters.command), add_smoke_definition)],
+                SAVE: [MessageHandler(Filters.text & (~Filters.command), save_new_smokes)]
+            },
 
-        fallbacks=[]
-    )
+            fallbacks=[]
+        )
 
-    dispatcher.add_handler(convo_handler)
+        dispatcher.add_handler(convo_handler)
+    except Exception as e:
+        logging.exception(e)
+        sys.exit()
     # start_handler = CommandHandler('start', start)
     # dispatcher.add_handler(start_handler)
 
