@@ -52,6 +52,26 @@ def decrypt(update, context):
         text=resp
     )
 
+def encrypt(update, context):
+    plaintext = update.message.text.split(" ")
+    ciphertext = list()
+
+    for word in plaintext:
+        word = word.lower()
+        
+        for smoke, define in YZ_DICT.items():
+            if define == word:
+                ciphertext.append(smoke)
+                break
+
+        ciphertext.append(word)
+
+    resp = ' '.join(ciphertext)
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=resp
+    )
+
 
 def add_smoke_word(update, context):
     context.user_data["word"] = update.message.text
@@ -153,6 +173,12 @@ def main():
 
         message_handler = MessageHandler(Filters.text & (~Filters.command), decrypt)
         dispatcher.add_handler(message_handler)
+
+        encode_handler = CommandHandler('encode', encrypt)
+        dispatcher.add_handler(encode_handler)
+
+        encrypt_handler = CommandHandler('encrypt', encrypt)
+        dispatcher.add_handler(encrypt_handler)
 
     except Exception as e:
         logging.exception(e)
